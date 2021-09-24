@@ -69,8 +69,6 @@ class Preload extends Phaser.Scene {
     }
 
     create() {
-        this.scene.start("MainMenu");
-
         this.anims.create({
             key: "enemy",
             frames: this.anims.generateFrameNumbers("enemy"),
