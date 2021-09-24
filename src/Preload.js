@@ -4,17 +4,11 @@ class Preload extends Phaser.Scene {
     }
 
     preload() {
-        var progressBar = this.add.graphics();
-
-        this.load.on('progress', function (value) {
-            progressBar.clear();
-            progressBar.fillStyle(0xff0000);
-            progressBar.fillRect(90, 160, 100 * value, 10);
-        });
-
-        this.load.on('complete', function () {
-            progressBar.destroy();
-        });
+        this.graphics = this.add.graphics();
+		this.newGraphics = this.add.graphics();
+		var progressBar = new Phaser.Geom.Rectangle(90, 160, 100, 10);
+		this.graphics.fillStyle(0xffffff, 1);
+		this.graphics.fillRectShape(progressBar);
 
         this.load.image("starsbg", "assets/starsbg.png");
         this.load.image("spacemenubg", "assets/banner.png");
@@ -69,6 +63,9 @@ class Preload extends Phaser.Scene {
         this.load.audio("theme", "assets/theme.mp3");
 
         this.load.bitmapFont("pixelFont", "assets/font.png", "assets/font.xml");
+
+        this.load.on('progress', this.updateBar, {newGraphics:this.newGraphics});
+        this.load.on('complete', this.complete, {scene:this.scene});
     }
 
     create() {
@@ -130,4 +127,16 @@ class Preload extends Phaser.Scene {
             repeat: -1
         });
     }
+
+    updateBar(percentage) {
+        this.newGraphics.clear();
+        this.newGraphics.fillStyle(0xff0000, 1);
+        this.newGraphics.fillRectShape(new Phaser.Geom.Rectangle(90, 160, percentage*100, 10));
+                
+        percentage = percentage * 100;
+	}
+
+	complete() {
+        this.scene.start("MainMenu");
+	}
 }
