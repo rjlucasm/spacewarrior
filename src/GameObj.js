@@ -125,7 +125,7 @@ class Asteroid extends GameObj {
     constructor(scene, x, y) {
         super(scene, x, y, "asteroid", "Asteroid");
 
-        this.body.velocity.y = Phaser.Math.Between(600, 800);
+        this.body.velocity.y = Phaser.Math.Between(600, 750);
     }
 
     update() {
